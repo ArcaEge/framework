@@ -14,7 +14,7 @@
 				alt="User profile pic"
 				class="aspect-square h-30 border-3 border-amber-800"
 			/>
-			<h1 class="text-2xl font-bold">{data.requestedUser.name}</h1>
+			<h1 class="text-2xl font-bold truncate">{data.requestedUser.name}</h1>
 			<Calendar />
 			<div class="items-center text-center">
 				<p>

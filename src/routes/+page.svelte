@@ -5,7 +5,7 @@
 	import Prizes from './Prizes.svelte';
 	import Footer from './Footer.svelte';
 
-	import model from '$lib/assets/pumpkin.3mf?url';
+	import model from '$lib/assets/rocket.3mf?url';
 
 	let { data } = $props();
 
@@ -109,7 +109,7 @@
 			box.getSize(size);
 			const largestDimension = Math.max(size.x, size.y, size.z);
 
-			camera.position.z = largestDimension * 1.3;
+			camera.position.z = largestDimension * 1.75;
 			camera.position.y = 0;
 
 			directional.position.set(largestDimension * 2, largestDimension * 2, largestDimension * 2);
