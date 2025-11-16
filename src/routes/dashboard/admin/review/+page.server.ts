@@ -13,7 +13,8 @@ const PROJECT_FORMAT = {
 		createdAt: project.createdAt,
 		status: project.status
 	},
-	timeSpent: sql<number>`COALESCE(SUM(${devlog.timeSpent}), 0)`
+	timeSpent: sql<number>`COALESCE(SUM(${devlog.timeSpent}), 0)`,
+	devlogCount: sql<number>`COALESCE(COUNT(${devlog.id}), 0)`
 };
 
 export async function load({ locals }) {

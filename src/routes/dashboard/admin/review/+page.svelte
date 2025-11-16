@@ -23,11 +23,11 @@
 
 <h1 class="mt-5 mb-3 font-hero text-3xl font-medium">Review</h1>
 
-<div class="flex flex-row gap-5">
+<div class="flex flex-col-reverse gap-5 lg:flex-row">
 	<div class="themed-box grow p-3">
 		<h2 class="mb-2 text-xl font-bold">Filter & Sort</h2>
 		<form method="POST" use:enhance>
-			<div class="grid grid-cols-3 gap-3">
+			<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
 				<!-- Project status -->
 				<label class="flex flex-col gap-1">
 					<span class="font-medium">Status</span>
@@ -37,13 +37,13 @@
 						value={form?.fields.status ?? ['submitted']}
 						multiple
 					>
-						<option value="building">Building</option>
-						<option value="submitted">Submitted</option>
-						<option value="t1_approved">Review approved</option>
-						<option value="t2_approved">YSWS review approved</option>
-						<option value="finalized">Finalized</option>
-						<option value="rejected">Rejected</option>
-						<option value="rejected_locked">Rejected (locked)</option>
+						<option value="building" class="truncate">Building</option>
+						<option value="submitted" class="truncate">Submitted</option>
+						<option value="t1_approved" class="truncate">Review approved</option>
+						<option value="t2_approved" class="truncate">YSWS review approved</option>
+						<option value="finalized" class="truncate">Finalized</option>
+						<option value="rejected" class="truncate">Rejected</option>
+						<option value="rejected_locked" class="truncate">Rejected (locked)</option>
 					</select>
 				</label>
 
@@ -92,12 +92,14 @@
 			<button type="submit" class="button md amber mt-3 w-full">Apply!</button>
 		</form>
 	</div>
-	<div class="themed-box min-w-[30%] grow p-3">
+	<div class="themed-box grow p-3 lg:min-w-[30%]">
 		<h2 class="text-xl font-bold">Leaderboard</h2>
 	</div>
 </div>
 
-<div>
+<h2 class="mt-4 mb-2 text-2xl font-bold">Projects</h2>
+
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3">
 	{#each projects as project}
 		<div class="themed-box relative flex flex-col p-3 shadow-lg/20 transition-all hover:scale-102">
 			<a
@@ -120,12 +122,14 @@
 			{:else}
 				<div class="mb-2"></div>
 			{/if}
+			<p class="text-sm">
+				{project.devlogCount} journal{project.devlogCount !== 1 ? 's' : ''} ∙ {Math.floor(project.timeSpent / 60)}h {project.timeSpent % 60}min
+			</p>
 			<div class="flex flex-row gap-4">
 				<p class="grow text-sm">
 					Created <abbr title={`${project.project.createdAt.toUTCString()}`} class="relative z-2">
 						{relativeDate(project.project.createdAt)}
 					</abbr>
-					∙ {Math.floor(project.timeSpent / 60)}h {project.timeSpent % 60}min
 				</p>
 				<p class="text-sm">{projectStatuses[project.project.status]}</p>
 			</div>
