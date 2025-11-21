@@ -3,6 +3,17 @@
 import express from 'express';
 import path from 'node:path';
 import { handler } from './build/handler.js';
+// import { CronJob } from 'cron';
+
+// new CronJob(
+// 	'* * * * * *', // cronTime
+// 	function () {
+// 		console.log('You will see this message every second');
+// 	}, // onTick
+// 	null, // onComplete
+// 	true, // start
+// 	'Europe/London' // timeZone
+// );
 
 const UPLOADS = path.resolve(process.env.UPLOADS_PATH);
 

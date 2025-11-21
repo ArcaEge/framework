@@ -49,6 +49,7 @@
 		"@libsql/client": "^0.15.15",
 		"@lucide/svelte": "^0.547.0",
 		"@prgm/sveltekit-progress-bar": "^3.0.2",
+		"cron": "^4.3.4",
 		"drizzle-kit": "^0.31.4",
 		"drizzle-orm": "^0.44.5",
 		"express": "^5.1.0",
