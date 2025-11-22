@@ -28,7 +28,8 @@ export async function load({ locals, params }) {
 				id: user.id,
 				name: user.name,
 				slackID: user.slackId,
-				status: user.status
+				trust: user.trust,
+				hackatimeTrust: user.hackatimeTrust
 			},
 			timeSpent: sql<number>`COALESCE(SUM(${devlog.timeSpent}), 0)`,
 			devlogCount: sql<number>`COALESCE(COUNT(${devlog.id}), 0)`,

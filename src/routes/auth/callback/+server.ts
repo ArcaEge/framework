@@ -89,7 +89,20 @@ export async function GET(event) {
 
 	// TODO: Check Hackatime API if they're banned and identity if they're verified
 	// https://identity.hackclub.com/api/external/check?slack_id=
-	// https://hackatime.hackclub.com/api/v1/users/SLACK_ID/trust_factor
+
+	// Check Hackatime trust
+	const hackatimeTrust = (
+		await (
+			await fetch(`https://hackatime.hackclub.com/api/v1/users/${slackId}/trust_factor`)
+		).json()
+	)['trust_level'];
+
+	if (!hackatimeTrust) {
+		return error(418, { message: 'failed to fetch hackatime trust factor, please try again later' });
+	} else if (hackatimeTrust === 'red') {
+		// Prevent login
+		return redirect(302, "https://fraud.land");
+	}
 
 	// Create user if doesn't exist
 	let databaseUser = await db.select().from(user).where(eq(user.slackId, slackId)).get();
@@ -98,7 +111,7 @@ export async function GET(event) {
 		// Update user (update name and profile picture and lastLoginAt on login)
 		await db
 			.update(user)
-			.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()) })
+			.set({ name: name, profilePicture: profilePic, lastLoginAt: new Date(Date.now()), hackatimeTrust })
 			.where(eq(user.slackId, slackId));
 	} else {
 		// Create user
@@ -108,6 +121,7 @@ export async function GET(event) {
 			profilePicture: profilePic,
 			createdAt: new Date(Date.now()),
 			lastLoginAt: new Date(Date.now()),
+			hackatimeTrust,
 			// TODO: remove these after siege
 			hasT1Review: true,
 			hasT2Review: true,

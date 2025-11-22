@@ -24,15 +24,33 @@
 						</abbr>
 					</p>
 					<p>
-						{data.project.devlogCount} logs ∙ {Math.floor(data.project.timeSpent / 60)}h {data.project.timeSpent % 60}min
+						{data.project.devlogCount} logs ∙ {Math.floor(data.project.timeSpent / 60)}h {data
+							.project.timeSpent % 60}min
 					</p>
 				</div>
 
 				<div>
 					<h2 class="text-lg font-bold">User</h2>
-					<p>by <a class="underline" href={`/dashboard/users/${data.project.user?.id}`}>{data.project.user?.name}</a></p>
-					<p>Slack ID: <a class="underline" href={`https://hackclub.slack.com/team/${data.project.user?.slackID}`} target="_blank">{data.project.user?.slackID}</a></p>
-					<p>Trust status: {data.project.user?.status}</p>
+					<p>
+						by <a class="underline" href={`/dashboard/users/${data.project.user?.id}`}
+							>{data.project.user?.name}</a
+						>
+					</p>
+					<p>
+						Slack ID: <a
+							class="underline"
+							href={`https://hackclub.slack.com/team/${data.project.user?.slackID}`}
+							target="_blank">{data.project.user?.slackID}</a
+						>
+					</p>
+					<p>Trust: {data.project.user?.trust}</p>
+					<p>
+						Hackatime trust: <a
+							class="underline"
+							href={`https://dash.fraud.land/profile/${data.project.user?.slackID}`}
+							target="_blank">{data.project.user?.hackatimeTrust}</a
+						>
+					</p>
 				</div>
 
 				<div>
@@ -42,9 +60,7 @@
 			</div>
 
 			<h2 class="mt-2 text-2xl font-bold">Review</h2>
-			<div class="themed-box flex flex-col gap-3 p-3">
-				coming soon
-			</div>
+			<div class="themed-box flex flex-col gap-3 p-3">coming soon</div>
 
 			<h2 class="mt-2 text-2xl font-bold">Journal logs</h2>
 			<div class="flex flex-col gap-5">
