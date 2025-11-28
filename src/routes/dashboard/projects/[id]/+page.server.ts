@@ -165,35 +165,31 @@ export const actions = {
 		const imagePath = `images/${crypto.randomUUID()}${extname(imageFile.name)}`;
 
 		// Validate model
-		let modelPath = null;
-
-		if (modelFile.size) {
-			if (modelFile.size > MAX_UPLOAD_SIZE) {
-				return fail(400, {
-					fields: { description, timeSpent },
-					invalid_model_file: true
-				});
-			}
-
-			if (
-				!ALLOWED_MODEL_TYPES.includes(modelFile.type) ||
-				!ALLOWED_MODEL_EXTS.includes(extname(modelFile.name))
-			) {
-				return fail(400, {
-					fields: { description, timeSpent },
-					invalid_model_file: true
-				});
-			}
-
-			modelPath = `models/${crypto.randomUUID()}${extname(modelFile.name)}`;
-
-			const modelCommand = new PutObjectCommand({
-				Bucket: env.S3_BUCKET_NAME,
-				Key: modelPath,
-				Body: Buffer.from(await modelFile.arrayBuffer())
+		if (!(imageFile instanceof File) || modelFile.size > MAX_UPLOAD_SIZE) {
+			return fail(400, {
+				fields: { description, timeSpent },
+				invalid_model_file: true
 			});
-			await S3.send(modelCommand);
 		}
+
+		if (
+			!ALLOWED_MODEL_TYPES.includes(modelFile.type) ||
+			!ALLOWED_MODEL_EXTS.includes(extname(modelFile.name))
+		) {
+			return fail(400, {
+				fields: { description, timeSpent },
+				invalid_model_file: true
+			});
+		}
+
+		const modelPath = `models/${crypto.randomUUID()}${extname(modelFile.name)}`;
+
+		const modelCommand = new PutObjectCommand({
+			Bucket: env.S3_BUCKET_NAME,
+			Key: modelPath,
+			Body: Buffer.from(await modelFile.arrayBuffer())
+		});
+		await S3.send(modelCommand);
 
 		// Remove Exif metadata and save (we don't want another Hack Club classic PII leak :D)
 		const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
@@ -210,11 +206,18 @@ export const actions = {
 			projectId: queriedProject.id,
 			description: description.toString().trim(),
 			image: imagePath,
-			model: modelPath ? modelPath : null,
+			model: modelPath,
 			timeSpent: parseInt(timeSpent.toString()),
 			createdAt: new Date(Date.now()),
 			updatedAt: new Date(Date.now())
 		});
+
+		await db
+			.update(project)
+			.set({
+				updatedAt: new Date(Date.now())
+			})
+			.where(and(eq(project.id, queriedProject.id)));
 
 		return { success: true };
 	}

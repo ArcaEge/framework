@@ -141,7 +141,7 @@
 							max={data.validationConstraints.timeSpent.max}
 						/>
 					</div>
-					<p class="text-sm">
+					<p class="text-sm opacity-50">
 						The minimum journal time is {data.validationConstraints.timeSpent.min} minutes, the maximum
 						is
 						{data.validationConstraints.timeSpent.max ==
@@ -181,7 +181,7 @@
 								Invalid file, must be a PNG or JPEG file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{:else}
-							<p class="mt-1 text-sm">
+							<p class="mt-1 text-sm opacity-50">
 								Must be a PNG or JPEG file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{/if}
@@ -199,7 +199,7 @@
 								Invalid file, must be a STL, 3MF or OBJ file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{:else}
-							<p class="mt-1 text-sm">
+							<p class="mt-1 text-sm opacity-50">
 								Must be a STL, 3MF (recommended) or OBJ file under {MAX_UPLOAD_SIZE / 1024 / 1024} MiB
 							</p>
 						{/if}
